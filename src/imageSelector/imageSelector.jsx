@@ -5,31 +5,34 @@ import { useState } from "react";
 function ImageSelector() {
     const [targetCordXY, setTargetCoord] = useState(false)
     const placeHolderOptions = ["Sideshow Bob", "Homer Simposon", "Apu"]
+    const testSpotX = 660;
+    const testSpotY = 715;
 
     const handleEvent = (event) => {
         const winScroll =
         document.body.scrollTop || document.documentElement.scrollTop
-        
-    //   const height =
-    //     document.documentElement.scrollHeight -
-    //     document.documentElement.clientHeight
     
-    //   const scrolled = winScroll / height
-      
-
-        // console.log(document.documentElement.scrollTop)
         const bounds = event.currentTarget.getBoundingClientRect();
+        // console.log(bounds)
         const x = event.clientX - bounds.left;
         const y = event.clientY - bounds.top;
-        setTargetCoord({ x: event.clientX - 25, y: event.clientY - 25 + winScroll})
+        // setTargetCoord({ x: x - (x * 0.03), y:y  - (y * 0.07)})
+        setTargetCoord({ x: x - (((bounds.right) * 0.03) / 2), y:y - ((bounds.bottom * 0.07/2))})
         let imageX = 2000;
         let imageY = 959;
         let posX = imageX * (x / event.currentTarget.clientWidth)
         let posY = imageY * (y / event.currentTarget.clientHeight)
         console.log(posX)
         console.log(posY)
-        console.log(x / event.currentTarget.clientWidth)
-        console.log(y / event.currentTarget.clientHeight)
+        console.log(bounds)
+        // console.log(x / event.currentTarget.clientWidth)
+        // console.log(y / event.currentTarget.clientHeight)
+        if(posX  > testSpotX - 25  && posX < testSpotX + 25){
+            console.log("Abu X")
+        }
+        if(posY  > testSpotY - 25  &&  posY < testSpotY + 25){
+            console.log("Abu Y")
+        }
     
     }
 
