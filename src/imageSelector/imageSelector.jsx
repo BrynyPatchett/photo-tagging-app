@@ -20,9 +20,6 @@ function ImageSelector() {
         let imageY = 959;
         let posX = imageX * (x / event.currentTarget.clientWidth)
         let posY = imageY * (y / event.currentTarget.clientHeight)
-        console.log(posX)
-        console.log(posY)
-        console.log(bounds)
         if(posX  > testSpotX - 25  && posX < testSpotX + 25){
             console.log("Abu X")
         }

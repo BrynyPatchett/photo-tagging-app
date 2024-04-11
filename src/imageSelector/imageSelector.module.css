@@ -8,6 +8,8 @@
     max-width: 100%;
     position: relative;
     z-index: 0;
+    border-radius: 25px;
+
 }
 
 .imageTarget{
@@ -31,6 +33,9 @@
 }
 
 .listitem{
-    background-color: white;
+    background-color: rgb(240, 240, 240);;
     text-align: center;
+    &:hover{
+        background-color: rgb(255, 255, 255);
+    }
 }
