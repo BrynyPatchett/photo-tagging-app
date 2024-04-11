@@ -13,10 +13,8 @@ function ImageSelector() {
         document.body.scrollTop || document.documentElement.scrollTop
     
         const bounds = event.currentTarget.getBoundingClientRect();
-        // console.log(bounds)
         const x = event.clientX - bounds.left;
         const y = event.clientY - bounds.top;
-        // setTargetCoord({ x: x - (x * 0.03), y:y  - (y * 0.07)})
         setTargetCoord({ x: x - (((bounds.right) * 0.03) / 2), y:y - ((bounds.bottom * 0.07/2))})
         let imageX = 2000;
         let imageY = 959;
@@ -25,8 +23,6 @@ function ImageSelector() {
         console.log(posX)
         console.log(posY)
         console.log(bounds)
-        // console.log(x / event.currentTarget.clientWidth)
-        // console.log(y / event.currentTarget.clientHeight)
         if(posX  > testSpotX - 25  && posX < testSpotX + 25){
             console.log("Abu X")
         }
