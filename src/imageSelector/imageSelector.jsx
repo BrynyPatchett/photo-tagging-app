@@ -17,11 +17,22 @@ function ImageSelector() {
         const bounds = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - bounds.left;
         const y = event.clientY - bounds.top;
-        setTargetCoord({ x: x - (((bounds.right) * 0.03) / 2), y:y - ((bounds.bottom * 0.07/2))})
-        let imageX = 2000;
-        let imageY = 959;
-        let posX = imageX * (x / event.currentTarget.clientWidth)
-        let posY = imageY * (y / event.currentTarget.clientHeight)
+        //setTargetCoord({ x: x - (((bounds.right) * 0.03) / 2), y:y - ((bounds.bottom * 0.07/2))})
+        //25x25 grid selector
+        setTargetCoord({ x: x - 25, y:y - 25 })
+
+        //placeholder for original image size
+        let orginalImageX = 2000;
+        let orginalImageY = 959;
+        //get scale factor for the original image (e.g 500/1000 = 0.5, original is 0.5 the size of current, orginal/currentsize)
+        let scaleX = orginalImageX / event.currentTarget.clientWidth;
+        let scaleY = orginalImageY / event.currentTarget.clientHeight;
+        //scale the click by the scale factor to find click position in original image
+        let posX = x * scaleX
+        let posY = y * scaleY;
+        
+
+
         imageClickPosition.current = {x:posX,y:posY}
         if(posX  > testSpotX - 25  && posX < testSpotX + 25){
             console.log("Abu X")
@@ -35,7 +46,8 @@ function ImageSelector() {
 
     function evalClick(){
         console.log(imageClickPosition.current.x)
-         console.log(imageClickPosition.current.y)
+        console.log(imageClickPosition.current.y)
+        console.log("send a request to get image data from the server")
     }
     return (
         <>
