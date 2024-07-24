@@ -14,8 +14,6 @@
 
 .imageTarget{
     position: absolute;
-    width: 3%;
-    height: 7%;
     z-index: 1;
     border: 5px solid red;
 }

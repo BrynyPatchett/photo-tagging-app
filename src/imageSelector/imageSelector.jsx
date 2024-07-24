@@ -1,8 +1,13 @@
 import characterImage from "/Simpsons-Characters.jpg"
+import Test from "/images.jpeg"
 import styles from './imageSelector.module.css'
 import { useRef, useState } from "react";
 
 function ImageSelector() {
+    const targetBoxSizeXPercentage = 0.03
+    const targetBoxSizeYPercentage = 0.07
+    const targetBoxSize = 50;
+
     const [targetCordXY, setTargetCoord] = useState(false)
     let imageClickPosition = useRef({x:0,y:0})
     const placeHolderOptions = ["Sideshow Bob", "Homer Simposon", "Apu"]
@@ -11,15 +16,13 @@ function ImageSelector() {
 
 
     const handleEvent = (event) => {
-        const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop
+
+        //notes need to click so its a 50 x 50 grid on original image which it checks, 
+        //then the visual need to be scaled by the current size to show how much it takes up
     
         const bounds = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - bounds.left;
         const y = event.clientY - bounds.top;
-        //setTargetCoord({ x: x - (((bounds.right) * 0.03) / 2), y:y - ((bounds.bottom * 0.07/2))})
-        //25x25 grid selector
-        setTargetCoord({ x: x - 25, y:y - 25 })
 
         //placeholder for original image size
         let orginalImageX = 2000;
@@ -30,14 +33,19 @@ function ImageSelector() {
         //scale the click by the scale factor to find click position in original image
         let posX = x * scaleX
         let posY = y * scaleY;
-        
+        //targeting area of the box
+        let targetingArea = targetBoxSize / 2
+        //scale the width and height of the box to be x = 3% of client width and y = 7%
+        let scaledTargetWidth = event.currentTarget.clientWidth * targetBoxSizeXPercentage;
+        let scaledTargetHeight= event.currentTarget.clientHeight *  targetBoxSizeYPercentage;
 
+        setTargetCoord({ x: x - (scaledTargetWidth / 2 ), y:y - (scaledTargetHeight / 2 ), width: scaledTargetWidth,height :scaledTargetHeight })
 
         imageClickPosition.current = {x:posX,y:posY}
-        if(posX  > testSpotX - 25  && posX < testSpotX + 25){
+        if(posX  > testSpotX - targetingArea && posX < testSpotX + targetingArea){
             console.log("Abu X")
         }
-        if(posY  > testSpotY - 25  &&  posY < testSpotY + 25){
+        if(posY  > testSpotY - targetingArea  &&  posY < testSpotY + targetingArea){
             console.log("Abu Y")
         }
         
@@ -53,7 +61,7 @@ function ImageSelector() {
         <>
             <div className={styles.imageContainer}>
                 <img className={styles.image} src={characterImage} onClick={handleEvent}></img>
-                {targetCordXY ? <> <div className={styles.imageTarget} style={{ top: targetCordXY.y, left: targetCordXY.x }} >
+                {targetCordXY ? <> <div className={styles.imageTarget} style={{ top: targetCordXY.y, left: targetCordXY.x, width: targetCordXY.width,height: targetCordXY.height }} >
                     <div className={styles.selectorList}>
                         {placeHolderOptions.map(element => <div  onClick={evalClick} key={element} className={styles.listitem}><p>{element}</p></div> )}
                     </div>
