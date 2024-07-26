@@ -12,8 +12,14 @@
 
 }
 
-.imageTarget{
+.imageTargetContainer{
     position: absolute;
+    z-index: 1;
+    gap: 10px;
+    display: flex;
+}
+
+.imageTarget{
     z-index: 1;
     border: 5px solid red;
 }
@@ -25,7 +31,6 @@
     background-color: rgb(186, 186, 186);
     width: 200px;
     position: relative;
-    left: 105% ;
     gap: 2px;
     z-index: 2;
 }

@@ -1,5 +1,4 @@
 import characterImage from "/Simpsons-Characters.jpg"
-import Test from "/images.jpeg"
 import styles from './imageSelector.module.css'
 import { useRef, useState } from "react";
 
@@ -9,7 +8,7 @@ function ImageSelector() {
     const targetBoxSize = 50;
 
     const [targetCordXY, setTargetCoord] = useState(false)
-    let imageClickPosition = useRef({x:0,y:0})
+    let imageClickPosition = useRef({ x: 0, y: 0 })
     const placeHolderOptions = ["Sideshow Bob", "Homer Simposon", "Apu"]
     const testSpotX = 660;
     const testSpotY = 715;
@@ -19,7 +18,7 @@ function ImageSelector() {
 
         //notes need to click so its a 50 x 50 grid on original image which it checks, 
         //then the visual need to be scaled by the current size to show how much it takes up
-    
+
         const bounds = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - bounds.left;
         const y = event.clientY - bounds.top;
@@ -37,22 +36,24 @@ function ImageSelector() {
         let targetingArea = targetBoxSize / 2
         //scale the width and height of the box to be x = 3% of client width and y = 7%
         let scaledTargetWidth = event.currentTarget.clientWidth * targetBoxSizeXPercentage;
-        let scaledTargetHeight= event.currentTarget.clientHeight *  targetBoxSizeYPercentage;
+        let scaledTargetHeight = event.currentTarget.clientHeight * targetBoxSizeYPercentage;
 
-        setTargetCoord({ x: x - (scaledTargetWidth / 2 ), y:y - (scaledTargetHeight / 2 ), width: scaledTargetWidth,height :scaledTargetHeight })
+        let dropDownSide = x + 210 > event.currentTarget.clientWidth ? "left" : "right"
 
-        imageClickPosition.current = {x:posX,y:posY}
-        if(posX  > testSpotX - targetingArea && posX < testSpotX + targetingArea){
+        setTargetCoord({ x: x - (scaledTargetWidth / 2), y: y - (scaledTargetHeight / 2), width: scaledTargetWidth, height: scaledTargetHeight, dropDownSide: dropDownSide })
+
+        imageClickPosition.current = { x: posX, y: posY }
+        if (posX > testSpotX - targetingArea && posX < testSpotX + targetingArea) {
             console.log("Abu X")
         }
-        if(posY  > testSpotY - targetingArea  &&  posY < testSpotY + targetingArea){
+        if (posY > testSpotY - targetingArea && posY < testSpotY + targetingArea) {
             console.log("Abu Y")
         }
-        
-    
+
+
     }
 
-    function evalClick(){
+    function evalClick() {
         console.log(imageClickPosition.current.x)
         console.log(imageClickPosition.current.y)
         console.log("send a request to get image data from the server")
@@ -61,11 +62,13 @@ function ImageSelector() {
         <>
             <div className={styles.imageContainer}>
                 <img className={styles.image} src={characterImage} onClick={handleEvent}></img>
-                {targetCordXY ? <> <div className={styles.imageTarget} style={{ top: targetCordXY.y, left: targetCordXY.x, width: targetCordXY.width,height: targetCordXY.height }} >
-                    <div className={styles.selectorList}>
-                        {placeHolderOptions.map(element => <div  onClick={evalClick} key={element} className={styles.listitem}><p>{element}</p></div> )}
+                {targetCordXY ? <>
+                <div className={styles.imageTargetContainer} style={{ top: targetCordXY.y, left: targetCordXY.dropDownSide === "left" ? targetCordXY.x - 210 : targetCordXY.x, flexDirection: targetCordXY.dropDownSide === "left"? "row-reverse" : "row" }} > 
+                <div className={styles.imageTarget} style={{ width: targetCordXY.width, height: targetCordXY.height }}></div>
+                <div className={styles.selectorList}>
+                        {placeHolderOptions.map(element => <div onClick={evalClick} key={element} className={styles.listitem}><p>{element}</p></div>)}
                     </div>
-                    </div></> : ""}
+                </div></> : ""}
             </div>
         </>
     )
